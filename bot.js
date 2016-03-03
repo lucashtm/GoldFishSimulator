@@ -2,6 +2,9 @@ console.log('The bot is running');
 
 var Twit = require('twit');
 var config = require('config');
+var aquarium = require('aquarium');
+
+var current = new aquarium.Aquarium();
 var T = new Twit(config);
 
 var stream = T.stream('user');
@@ -60,4 +63,9 @@ function tweetIt(txt){
       console.log("it worked!");
     }
   }
+}
+
+while(true){
+  current.update();
+  
 }

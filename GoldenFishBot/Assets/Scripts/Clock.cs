@@ -13,8 +13,14 @@ public class Clock : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		String sig;
 		DateTime time = System.DateTime.Now;
-		clock.text = time.ToString("hh:mm");
+		if(time.Hour >= 12){
+			sig = "pm";
+		}else{
+			sig = "am";
+		}
+		clock.text = time.ToString("hh:mm")+sig;
 		//Debug.Log(time.ToString("hh:mm"));
 	}
 }

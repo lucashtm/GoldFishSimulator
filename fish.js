@@ -172,11 +172,11 @@ function tweetIt(text, in_reply_to_id){
 }
 
 function formatTime(time){
-  var day = this.time.getDay();
-  var month = this.time.getMonth()+1;
-  var year = this.time.getFullYear();
-  var hour = this.time.getHours();
-  var minute = this.time.getMinutes();
+  var day = time.getDay();
+  var month = time.getMonth()+1;
+  var year = time.getFullYear();
+  var hour = time.getHours();
+  var minute = time.getMinutes();
   if(hour < 10){
     hour = '0'+hour;
   }

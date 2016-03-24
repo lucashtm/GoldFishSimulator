@@ -1,8 +1,8 @@
 {
-  "created_at": "Wed Mar 23 03:57:04 +0000 2016",
-  "id": 712488307180118000,
-  "id_str": "712488307180118020",
-  "text": "@rodneythefish water",
+  "created_at": "Thu Mar 24 04:52:08 +0000 2016",
+  "id": 712864552665350100,
+  "id_str": "712864552665350145",
+  "text": "@rodneythefish hot",
   "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
   "truncated": false,
   "in_reply_to_status_id": null,
@@ -23,7 +23,7 @@
     "followers_count": 62,
     "friends_count": 99,
     "listed_count": 0,
-    "favourites_count": 1087,
+    "favourites_count": 1089,
     "statuses_count": 312,
     "created_at": "Sat Aug 15 04:12:16 +0000 2009",
     "utc_offset": -10800,
@@ -77,6 +77,6 @@
   "favorited": false,
   "retweeted": false,
   "filter_level": "low",
-  "lang": "en",
-  "timestamp_ms": "1458705424481"
+  "lang": "und",
+  "timestamp_ms": "1458795128395"
 }

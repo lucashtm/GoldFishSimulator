@@ -2,14 +2,16 @@ console.log("running");
 
 var Twit = require('twit');
 var config = require('config');
+var redis = require('redis_connector');
+var connector = new redis.Redis();
 
 var T = new Twit(config);
 
-var pH = 6.8;
-var temperature = 20;
-var schedule = ['8:00', '16:17', '20:00'];
-var human = '@Lucashtm';
-var cont = 0;
+connector.redisGetData();
+var pH;
+var temperature;
+var schedule = ['','',''];
+var human;
 
 function AquariumManager(human, schedule){
 
@@ -22,7 +24,7 @@ function AquariumManager(human, schedule){
   }
   this.scheduleCheck = [false, false, false];
   this.time = new Date();
-  this.day = this.time.getDay();
+  this.day = this.time.getDate();
 
   this.checkPH = function(pH, username, in_reply_to_id){
     var add = '';
@@ -30,9 +32,9 @@ function AquariumManager(human, schedule){
       add += formatTime(this.time);
     }
     if(pH < 6.8){
-      this.reply(username, 'these microorganisms are cool'+' '+add, in_reply_to_id);
+      this.reply(username, 'these microorganisms are disturbing me'+' '+add, in_reply_to_id);
     }else if(in_reply_to_id){
-      this.reply(username, 'everything alright here, bored as always.', in_reply_to_id);
+      this.reply(username, 'everything clean.', in_reply_to_id);
     }
   }
 
@@ -60,7 +62,7 @@ function AquariumManager(human, schedule){
     if(!in_reply_to_id){
       add += formatTime(this.time);
     }
-    if(temperature >= 15 || temperature <= 24){
+    if(temperature >= 15 && temperature <= 24){
       if(in_reply_to_id){
         this.reply(username, 'everything is fine', in_reply_to_id);
       }
@@ -118,10 +120,10 @@ function AquariumManager(human, schedule){
 
   //check if day changed to reset the feed flags
   this.resetScheduleCheck = function(){
-      if(this.day != this.time.getDay()){
-        this.day = time.getDay();
-        this.scheduleCheck = [false, false, false];
-      }
+    if(this.day != this.time.getDate()){
+      this.day = time.getDate();
+      this.scheduleCheck = [false, false, false];
+    }
   }
 
   this.setSchedule = function(schedule){
@@ -140,6 +142,7 @@ listener.on('tweet', mentioned);
 listener.on('follow', followed);
 
 function mentioned(eventMsg){
+  updateData();
   aquarium.mentioned(eventMsg);
 }
 
@@ -147,13 +150,23 @@ function followed(eventMsg){
   aquarium.followed(eventMsg);
 }
 
-setInterval(updateData, 1000*60*30);
+setInterval(connector.redisGetData, 1000*30);
+setInterval(checkData, 1000*60*3);
+function checkData(){
+  updateData();
+  aquarium.checkEverything();
+}
 
 function updateData(){
-  console.log('called');
-  pH = (Math.random()*2.0) + 6.0;
-  temperature = Math.floor((Math.random()*20) + 10);
-  aquarium.checkEverything();
+  var data = connector.getData();
+  pH = data.pH;
+  temperature = data.temperature;
+  schedule = [data.schedule.first, data.schedule.second, data.schedule.third];
+  aquarium.human = data.human;
+  aquarium.scheduleCheck = [parseBoolean(data.feed.first), parseBoolean(data.feed.second), parseBoolean(data.feed.third)];
+  if(aquarium.day != aquarium.time.getDate()){
+    aquarium.resetScheduleCheck();
+  }
 }
 
 function tweetIt(text, in_reply_to_id){
@@ -172,7 +185,7 @@ function tweetIt(text, in_reply_to_id){
 }
 
 function formatTime(time){
-  var day = time.getDay();
+  var day = time.getDate();
   var month = time.getMonth()+1;
   var year = time.getFullYear();
   var hour = time.getHours();
@@ -184,4 +197,8 @@ function formatTime(time){
     minute = '0'+minute;
   }
   return '('+month+'/'+day+'/'+year+' '+hour+':'+minute+')';
+}
+
+function parseBoolean(text){
+  return text === "true" || text === "True" || text === "TRUE";
 }

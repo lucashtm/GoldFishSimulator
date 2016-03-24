@@ -1,12 +1,12 @@
 {
-  "created_at": "Wed Mar 23 04:18:25 +0000 2016",
-  "id": 712493679680876500,
-  "id_str": "712493679680876544",
-  "text": "@Lucashtm these microorganisms are cool (3/3/2016 1:15)",
+  "created_at": "Thu Mar 24 04:52:09 +0000 2016",
+  "id": 712864557698572300,
+  "id_str": "712864557698572288",
+  "text": "@Lucashtm Rodney is frozen solid.",
   "source": "<a href=\"http://fish.com\" rel=\"nofollow\">Rodney The Fish</a>",
   "truncated": false,
-  "in_reply_to_status_id": null,
-  "in_reply_to_status_id_str": null,
+  "in_reply_to_status_id": 712864552665350100,
+  "in_reply_to_status_id_str": "712864552665350145",
   "in_reply_to_user_id": 65822163,
   "in_reply_to_user_id_str": "65822163",
   "in_reply_to_screen_name": "Lucashtm",
@@ -24,7 +24,7 @@
     "friends_count": 0,
     "listed_count": 0,
     "favourites_count": 0,
-    "statuses_count": 62,
+    "statuses_count": 83,
     "created_at": "Sat Dec 19 17:08:50 +0000 2015",
     "utc_offset": -25200,
     "time_zone": "Pacific Time (US & Canada)",
@@ -78,5 +78,5 @@
   "retweeted": false,
   "filter_level": "low",
   "lang": "en",
-  "timestamp_ms": "1458706705385"
+  "timestamp_ms": "1458795129595"
 }

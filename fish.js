@@ -43,12 +43,12 @@ function AquariumManager(human, schedule){
     if(!in_reply_to_id){
       add += formatTime(this.time);
     }
+
     var now = this.time.getHours() + ':' + this.time.getMinutes();
     var got = false;
     for (var i = 0; i < schedule.length; i++) {
       if(now >= this.schedule[i] && !this.scheduleCheck[i]){
         this.reply(username, 'please feed me'+' '+add, in_reply_to_id);
-        this.rodneyFeeded(i);
         return;
       }
     }
@@ -102,16 +102,24 @@ function AquariumManager(human, schedule){
     if(eventMsg.in_reply_to_screen_name === "rodneythefish" || eventMsg.text.indexOf('@rodneythefish') != -1){
       fs.writeFile('tweet.json', json);
       console.log('tweet received');
+      var valid = false;
       if(eventMsg.text.indexOf('water') != -1 || eventMsg.text.indexOf('dirty') != -1){
         this.checkPH(pH, username, tweet_to_reply);
+        valid = true;
       }
 
       if (eventMsg.text.indexOf('hungry') != -1 || eventMsg.text.indexOf('food') != -1) {
         this.checkSchedule(username, tweet_to_reply);
+        valid = true;
       }
 
       if(eventMsg.text.indexOf('hot') != -1 || eventMsg.text.indexOf('cold') != -1 || eventMsg.text.indexOf('temperature') != -1){
         this.checkTemperature(temperature, username, tweet_to_reply);
+        valid = true;
+      }
+
+      if(!valid){
+        this.reply(username, 'you have to follow the instructions for me to tweet something with a meaning', tweet_to_reply);
       }
     }else{
       fs.writeFile('reply.json', json);
@@ -151,7 +159,7 @@ function followed(eventMsg){
 }
 
 setInterval(connector.redisGetData, 1000*30);
-setInterval(checkData, 1000*60*3);
+setInterval(checkData, 1000*61*30);
 function checkData(){
   updateData();
   aquarium.checkEverything();
